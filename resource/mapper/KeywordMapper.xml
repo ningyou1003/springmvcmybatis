@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+     <mapper namespace="springmvc.beans.Keyword">
+      
+       <resultMap id="KeywordMap" type="Keyword"> 	  
+	      <id property="id" column="id"/>
+       	  <result property="keys" column="keys"/>
+        </resultMap>
+ 
+       <select id="getById" parameterType="int" resultMap="KeywordMap">
+          select * from keyword where  id=#{id}
+       </select>
+       <select id="getByWhere" parameterType="Keyword" resultMap="KeywordMap">
+          select * from keyword ${where}
+       </select>
+        <select id="getBySql" parameterType="Keyword" resultMap="KeywordMap">
+            ${sql}
+       </select>
+	   <select id="getByObj" parameterType="Keyword" resultMap="KeywordMap">
+               select * from keyword where 1=1 
+	           <if test="id != null and id!= '' ">    
+	               AND  id = #{id}    
+	          </if>
+	           <if test="keys != null and keys != '' ">    
+	              AND  `keys` = #{keys}    
+	          </if>
+       </select>
+        <select id="findListByWhere" parameterType="String" resultMap="KeywordMap">
+             select * from keyword ${where}
+       </select>
+       <select id="findListByObj" parameterType="Keyword" resultMap="KeywordMap">
+               select * from keyword where 1=1 
+	           <if test="id != null and id!= '' ">    
+	               AND  id = #{id}    
+	          </if>
+	           <if test="keys != null and keys != '' ">    
+	              AND  `keys` = #{keys}    
+	          </if>
+         </select>
+         <select id="findListBySql" parameterType="Keyword" resultMap="KeywordMap">
+                ${sql}
+         </select>
+         <select id="findValueBySql" parameterType="Keyword" resultType="java.lang.Object">
+                ${sql}
+         </select>
+         
+        <insert id="insert" parameterType="Keyword"  useGeneratedKeys="true" keyProperty="id" keyColumn="GENERATED_KEY" >
+            insert into keyword(`keys`) values(#{keys})
+       </insert>
+      
+      <update id="updateById" parameterType="Keyword"  >
+             update keyword set `keys`=#{keys} where id=#{id}
+      </update>
+      <update id="updateByWhere" parameterType="String"  >
+             update keyword set `keys`=#{keys}  ${where}
+      </update>
+      
+       <delete id="deleteById" parameterType="Keyword"  >
+             delete from keyword where id=#{id}
+      </delete>
+       <delete id="deleteByWhere" parameterType="Keyword"  >
+            delete from keyword  ${where}
+       </delete>
+       
+       <update id="execute" parameterType="Keyword"  >
+               ${sql}
+      </update>
+       
+       
+   </mapper>

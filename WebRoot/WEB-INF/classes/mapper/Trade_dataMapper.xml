@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+     <mapper namespace="springmvc.beans.Trade_data">
+      
+       <resultMap id="Trade_dataMap" type="Trade_data"> 	  
+	      <id property="id" column="id"/>
+       	  <result property="username" column="username"/>
+       	  <result property="phone" column="phone"/>
+       	  <result property="time" column="time"/>
+       	  <result property="content" column="content"/>
+       	  <result property="address" column="address"/>
+       	  <result property="supplier" column="supplier"/>
+       	  <result property="reply" column="reply"/>
+       	  <result property="tag" column="tag"/>
+       	  <result property="grade" column="grade"/>
+       	  <result property="entry_time" column="entry_time"/>
+        </resultMap>
+ 
+       <select id="getById" parameterType="int" resultMap="Trade_dataMap">
+          select * from trade_data where  id=#{id}
+       </select>
+       <select id="getByWhere" parameterType="Trade_data" resultMap="Trade_dataMap">
+          select * from trade_data ${where}
+       </select>
+        <select id="getBySql" parameterType="Trade_data" resultMap="Trade_dataMap">
+            ${sql}
+       </select>
+	   <select id="getByObj" parameterType="Trade_data" resultMap="Trade_dataMap">
+               select * from trade_data where 1=1 
+	           <if test="id != null and id!= '' ">    
+	               AND  id = #{id}    
+	          </if>
+	           <if test="keys != null and keys != '' ">    
+	              AND  `keys` = #{keys}    
+	          </if>
+       </select>
+        <select id="findListByWhere" parameterType="String" resultMap="Trade_dataMap">
+             select * from trade_data ${where}
+       </select>
+       <select id="findListByObj" parameterType="Trade_data" resultMap="Trade_dataMap">
+               select * from trade_data where 1=1 
+	           <if test="id != null and id!= '' ">    
+	               AND  id = #{id}    
+	          </if>
+	           <if test="keys != null and keys != '' ">    
+	              AND  `keys` = #{keys}    
+	          </if>
+         </select>
+         <select id="findListBySql" parameterType="Trade_data" resultMap="Trade_dataMap">
+                ${sql}
+         </select>
+         <select id="findValueBySql" parameterType="Trade_data" resultType="java.lang.Object">
+                ${sql}
+         </select>
+         
+        <insert id="insert" parameterType="Trade_data"  useGeneratedKeys="true" keyProperty="id" keyColumn="GENERATED_KEY" >
+            insert into trade_data(`keys`) values(#{keys})
+       </insert>
+      
+      <update id="updateById" parameterType="Trade_data"  >
+             update trade_data set `keys`=#{keys} where id=#{id}
+      </update>
+      <update id="updateByWhere" parameterType="String"  >
+             update trade_data set `keys`=#{keys}  ${where}
+      </update>
+      
+       <delete id="deleteById" parameterType="Trade_data"  >
+             delete from trade_data where id=#{id}
+      </delete>
+       <delete id="deleteByWhere" parameterType="Trade_data"  >
+            delete from trade_data  ${where}
+       </delete>
+       
+       <update id="execute" parameterType="Trade_data"  >
+               ${sql}
+      </update>
+       
+       
+   </mapper>

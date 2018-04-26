@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+     <mapper namespace="springmvc.beans.User">
+      
+       <resultMap id="UserMap" type="User"> 	  
+	      <id property="id" column="id"/>
+       	  <result property="username" column="username"/>
+       	  <result property="password" column="password"/>
+        </resultMap>
+ 
+       <select id="getById" parameterType="int" resultMap="UserMap">
+          select * from user where  id=#{id}
+       </select>
+       <select id="getByWhere" parameterType="User" resultMap="UserMap">
+          select * from user ${where}
+       </select>
+        <select id="getBySql" parameterType="User" resultMap="UserMap">
+            ${sql}
+       </select>
+	   <select id="getByObj" parameterType="User" resultMap="UserMap">
+               select * from user where 1=1 
+	           <if test="id != null and id!= '' ">    
+	               AND  id = #{id}    
+	          </if>
+	           <if test="username != null and username != '' ">    
+	              AND  username = #{username}    
+	          </if>
+	           <if test="password != null and password!= '' ">    
+	               AND  password = #{password}    
+	          </if>  
+       </select>
+        <select id="findListByWhere" parameterType="String" resultMap="UserMap">
+             select * from user ${where}
+       </select>
+       <select id="findListByObj" parameterType="User" resultMap="UserMap">
+               select * from user where 1=1 
+	           <if test="id != null and id!= '' ">    
+	               AND  id = #{id}    
+	          </if>
+	           <if test="username != null and username != '' ">    
+	              AND  username = #{username}    
+	          </if>
+	           <if test="password != null and password!= '' ">    
+	               AND  password = #{password}    
+	          </if>  
+         </select>
+         <select id="findListBySql" parameterType="User" resultMap="UserMap">
+                ${sql}
+         </select>
+         <select id="findValueBySql" parameterType="User" resultType="java.lang.Object">
+                ${sql}
+         </select>
+         
+        <insert id="insert" parameterType="User"  useGeneratedKeys="true" keyProperty="id" keyColumn="GENERATED_KEY" >
+            insert into user(username,password) values(#{username},#{password})
+       </insert>
+      
+      <update id="updateById" parameterType="User"  >
+             update user set username=#{username},password=#{password} where id=#{id}
+      </update>
+      <update id="updateByWhere" parameterType="String"  >
+             update user set username=#{username},password=#{password}  ${where}
+      </update>
+      
+       <delete id="deleteById" parameterType="User"  >
+             delete from user where id=#{id}
+      </delete>
+       <delete id="deleteByWhere" parameterType="User"  >
+            delete from user  ${where}
+       </delete>
+       
+       <update id="execute" parameterType="User"  >
+               ${sql}
+      </update>
+       
+       
+   </mapper>
